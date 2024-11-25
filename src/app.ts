@@ -1,6 +1,5 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
-import config from './app/config';
 import { routers } from './app/config/modules/student.ruter';
 
 const app: Application = express();
