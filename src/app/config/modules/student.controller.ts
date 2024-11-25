@@ -41,8 +41,31 @@ const getAllSutdentfromDb = async (req:Request, res:Response)=>{
     }
 }
 
+// get single student by id
+
+const singelStudentById = async(req:Request, res:Response)=> {
+    try {
+        const id= req.params.studentId;
+        
+        const result = await studentService.getSingelStudent(id);
+        res.status(200).json({
+            successfull:true,
+            data:result
+        })
+    } catch (error:any) {
+        res.status(500).json({
+          success: false,
+          message: error.message || 'Something went to wrong',
+          data: {},
+        });
+    }
+}
+
+
+
 
 export const studentControl={
     createStudent,
-    getAllSutdentfromDb
+    getAllSutdentfromDb,
+    singelStudentById
 }
