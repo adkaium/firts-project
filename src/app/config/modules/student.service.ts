@@ -15,10 +15,21 @@ const getAllStudent = async () => {
 };
 
 // get one student by Id:
-
 const getSingelStudent = async (_id: string) => {
   const result = await StudentModel.findById(_id);
 
+  return result;
+};
+
+// update data by using patch
+const updateData = async (_id: string, doc: {}) => {
+  console.log(doc);
+  const {} = doc;
+  const result = await StudentModel.findByIdAndUpdate(_id, doc, {
+    new: true,
+    runValidators: true,
+  });
+  console.log(result);
   return result;
 };
 
@@ -26,4 +37,5 @@ export const studentService = {
   createNewStudent,
   getAllStudent,
   getSingelStudent,
+  updateData,
 };
