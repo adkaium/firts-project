@@ -1,10 +1,21 @@
 import { StudentModel } from './student.modle';
 import { Student } from './student.Interface';
 
+
 //creat student
 const createNewStudent = async (studentData: Student) => {
-  const result = await StudentModel.create(studentData);
+  // const result = await StudentModel.create(studentData);
+  const student = new StudentModel(studentData)
+  if ( await student.isExestsingStudent(studentData.email)){
+    throw new Error("This email already Exixting")
+    
+  }
+     await student.myStaticMethod
+    
+    
+    const result = student.save();
   return result;
+
 };
 
 // get all student
