@@ -6,7 +6,7 @@ import { model, Model, Schema, Types } from 'mongoose';
 // }
 export type TuserName = {
   firstName: string;
-  middleName: string;
+  middleName?: string;
   lastName: string;
 };
 
@@ -28,7 +28,7 @@ export type TLocalGuardian = {
 
 export type TStudent = {
   id: string;
-  user: Types.ObjectId;
+  // user: Types.ObjectId;
   password: string;
   name: TuserName;
   gender: 'male' | 'female' | 'other';
@@ -42,8 +42,8 @@ export type TStudent = {
   guardian: TGuardian;
   localGuardian: TLocalGuardian;
   profileImg?: string;
-  admissionsemester: Types.ObjectId;
-  academicDepartment: Types.ObjectId;
+  // admissionsemester: Types.ObjectId;
+  // academicDepartment: Types.ObjectId;
   isDeleted: boolean;
 };
 

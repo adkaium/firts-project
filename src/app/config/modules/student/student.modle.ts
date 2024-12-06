@@ -1,5 +1,11 @@
 import { model, Schema } from 'mongoose';
-import { StudentModel, TGuardian, TLocalGuardian, TStudent, TuserName } from './student.Interface';
+import {
+  StudentModel,
+  TGuardian,
+  TLocalGuardian,
+  TStudent,
+  TuserName,
+} from './student.Interface';
 
 const userNameSchema = new Schema<TuserName>({
   firstName: {
@@ -147,44 +153,37 @@ const studentSchema = new Schema<TStudent>(
       virtuals: true,
     },
   },
-); 
+);
 
-// virtual 
+// virtual
 
-studentSchema.virtual('fullName').get(function(){
-  return this.name.firstName + this.name.middleName + this.name.lastName
-})
+studentSchema.virtual('fullName').get(function () {
+  return this.name.firstName + this.name.middleName + this.name.lastName;
+});
 
-// Query Middleware 
+// Query Middleware
 
-studentSchema.pre('find', function(next){
-  this.find({isDeletd: {$ne: true}});
+studentSchema.pre('find', function (next) {
+  this.find({ isDeletd: { $ne: true } });
   next();
-})
+});
 
-
-studentSchema.pre('findOne', function(next){
+studentSchema.pre('findOne', function (next) {
   this.find({
-    isDeleted: {$ne:true}
+    isDeleted: { $ne: true },
   });
   next();
-})
+});
 
-studentSchema.pre('aggregate', function(next){
-  this.pipeline().unshift({$match:{isDeleted: {$ne:true}}});
+studentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
 
 // create a custom static method
-studentSchema.statics.isUserExists = async function (id: string){
-  const exitingUser = await Student.findOne({id});
-  return exitingUser
-}
+studentSchema.statics.isUserExists = async function (id: string) {
+  const exitingUser = await Student.findOne({ id });
+  return exitingUser;
+};
 
-
-
-
-
-
-
-export const Student = model<TStudent, StudentModel>('Student', studentSchema)
+export const Student = model<TStudent, StudentModel>('Student', studentSchema);
