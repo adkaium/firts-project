@@ -1,5 +1,5 @@
 import express from 'express';
-import { studentControl } from '../../../modules/student/student.controller';
+import { studentControl } from './student.controller';
 
 
 
