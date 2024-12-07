@@ -1,7 +1,9 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import {  studentRouters } from './app/modules/student/student.ruter';
 import { userRoutes } from './app/modules/user/user.route';
+import { globalErrorHandelar } from './app/middlewares/globalErrorHandelar';
+import { notFound } from './app/middlewares/notFound';
 
 
 
@@ -23,4 +25,7 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
 
+
+app.use(globalErrorHandelar)
+app.use(notFound)
 export default app;

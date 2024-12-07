@@ -1,30 +1,28 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 // import { studentValidationSchema } from './student.validation';
 import { studentService } from './student.service';
 
 
 
 
-const getAllSutdentfromDb = async (req: Request, res: Response) => {
+const getAllSutdentfromDb = async (req: Request, res: Response,   next:  NextFunction) => {
   try {
     const result = await studentService.getAllStudent();
-
     res.status(200).json({
       successful: true,
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went to wrong',
-      data: {},
-    });
+  } catch (error) {
+    next(error)
   }
 };
 
 // get single student by id
-
-const singelStudentById = async (req: Request, res: Response) => {
+const singelStudentById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const id = req.params.studentId;
 
@@ -33,17 +31,17 @@ const singelStudentById = async (req: Request, res: Response) => {
       successfull: true,
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went to wrong',
-      data: {},
-    });
+  } catch (error) {
+    next(error)
   }
 };
 
 // get update data
-const singelDataUpdate = async (req: Request, res: Response) => {
+const singelDataUpdate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const id = req.params.studentId;
     // const doc= {$set:req.body}  for patch
@@ -56,12 +54,8 @@ const singelDataUpdate = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went to wrong',
-      data: {},
-    });
+  } catch (error) {
+    next(error)
   }
 };
 
