@@ -14,7 +14,7 @@ const createNewStudent = async (password: string, studentData: TStudent) => {
   userData.password = password || (config.default_pass as string);
   userData.role = 'student';
   //    set id manuale in created new obj.
-  userData.id = '203010002';
+  userData.id = '203010007';
   //    create a user
   const newUser = await User.create(userData);
 
