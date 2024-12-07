@@ -1,9 +1,8 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import {  studentRouters } from './app/modules/student/student.ruter';
-import { userRoutes } from './app/modules/user/user.route';
 import { globalErrorHandelar } from './app/middlewares/globalErrorHandelar';
 import { notFound } from './app/middlewares/notFound';
+import router from './app/routes';
 
 
 
@@ -13,8 +12,9 @@ const port = 3001;
 
 app.use(express.json());
 app.use(cors());
-app.use('/api/students', studentRouters);
-app.use('/api/users', userRoutes)
+// application routes
+app.use('/api', router);
+
 
 app.get('/', (req: Request, res: Response) => {
   const a = 17;
