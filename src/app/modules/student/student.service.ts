@@ -1,12 +1,6 @@
 import { Student } from './student.modle';
-import { TStudent } from './student.Interface';
 
-//creat student
-const createNewStudent = async (studentData: TStudent) => {
-  const result = await Student.create(studentData);
 
-  return result;
-};
 
 // get all student
 const getAllStudent = async () => {
@@ -35,7 +29,6 @@ const updateData = async (_id: string, doc: {}) => {
 };
 
 export const studentService = {
-  createNewStudent,
   getAllStudent,
   getSingelStudent,
   updateData,
