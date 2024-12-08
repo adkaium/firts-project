@@ -9,13 +9,7 @@ import sendResponse from "../../utilits/sendResponse";
 const createStudent = async (req: Request, res: Response, next:NextFunction) => {
   try {
     const { password, student:studentData } = req.body;
-
-    // const zodparseData = userValidationSchema.parse(studentdata);
     const result = await userService.createNewStudent(password,studentData);
-    // res.status(200).json({
-    //   successful: true,
-    //   Data: result,
-    // });
     sendResponse(res, {
       statusCode:200,
       success:true,
