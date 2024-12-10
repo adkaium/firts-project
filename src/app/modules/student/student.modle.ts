@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, SchemaTypes } from 'mongoose';
 import {
   StudentModel,
   TGuardian,
@@ -100,7 +100,7 @@ const studentSchema = new Schema<TStudent>(
       },
       required: [true, 'Gender is required'],
     },
-    dathOfBirth: { type: Date },
+    dathOfBirth: { type: String },
     email: {
       type: String,
       required: [true, 'Email is required'],
@@ -135,10 +135,10 @@ const studentSchema = new Schema<TStudent>(
       required: [true, 'Local guardian information is required'],
     },
     profileImg: { type: String },
-    // admissionSemester: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'AcademicSemester',
-    // },
+    admissionSemester: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicSemester',
+    },
     isDeleted: {
       type: Boolean,
       default: false,

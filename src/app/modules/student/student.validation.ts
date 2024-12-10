@@ -51,7 +51,7 @@ const studentValidationSchema = z.object({
       gender: z.enum(['male', 'female', 'other'], {
         errorMap: () => ({ message: 'Gender is required' }),
       }),
-      dathOfBirth: z.date().optional(),
+      dathOfBirth: z.string().optional(),
       email: z
         .string()
         .email({ message: 'Invalid email address' })
@@ -72,6 +72,7 @@ const studentValidationSchema = z.object({
       guardian: guardianValidationSchema,
       localGuardian: localGuardianValidationSchema,
       profileImg: z.string().optional(),
+      admissionSemester:z.string()
     }),
   }),
 });
