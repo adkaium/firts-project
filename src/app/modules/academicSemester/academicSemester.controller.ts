@@ -1,64 +1,18 @@
-import { NextFunction, Request, Response } from 'express';
-// import httpStatus from 'http-status';
-import { AcademicSemesterService } from './academicSemester.services';
-import sendResponse from '../../utilits/sendResponse';
-import { catchAsync } from '../../utilits/catchAsync';
-import { AcademicSemester } from './academicSemester.model';
+import { catchAsync } from "../../utilits/catchAsync";
+import sendResponse from "../../utilits/sendResponse";
+import { AcademicSemesterService } from "./academicSemester.services";
 
-const createAcademicSemester = catchAsync(async (req, res) => {
-  const result = await AcademicSemesterService.createAcademicSemesterIntoDb(
-    req.body,
-  );
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: 'Academic Semester is created Successfully',
-    data: result,
-     
-  });
- 
-});
 
-const getAllSemester = catchAsync(async (req,res)=>{
-  const result = await AcademicSemesterService.getAllAcademicSemestersFromDB();
-  
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: "Get All Semester is Successfully",
-    data:result,
-  })
+const createAcademicSemester = catchAsync(async(req, res)=>{
+    const academicSemester = await AcademicSemesterService.crearteAcademicSemesterIntoDB(req.body)
+    sendResponse(res,{
+        success:true,
+        statusCode:201,
+        message:"Academic Semester created successfully",
+        data:academicSemester,
+    })
 })
 
-const getSingleSemester = catchAsync(async(req,res)=>{
-  const {semesterId} = req.params;
-
-  const result = 
-   await AcademicSemesterService.getSingelSemesterFromDB(semesterId) ;
-
-   sendResponse(res,{
-    statusCode:200,
-    success:true,
-    message: "get data Successfully",
-    data:result
-   })
-});
-
-const updateAcademicSemester = catchAsync(async(req,res)=>{
-  const {semesterId} = req.params;
-  const result = await AcademicSemesterService.updateDataIntoDB(semesterId,req.body);
-
-  sendResponse(res,{
-    statusCode:200,
-    success:true,
-    message:"Semester Update Successfully",
-    data:result,
-  })
-})
-
-export const AcademicSemesterContorller = {
-  createAcademicSemester,
-  getAllSemester,
-  getSingleSemester,
-  updateAcademicSemester
-};
+export const AcademicSemesterController = {
+    createAcademicSemester,
+}

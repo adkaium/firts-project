@@ -21,9 +21,6 @@ app.get('/', (req: Request, res: Response) => {
   res.send(a);
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
 
 
 app.use(globalErrorHandelar)
