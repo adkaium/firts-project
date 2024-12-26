@@ -27,7 +27,6 @@ export type TLocalGuardian = {
 };
 
 export type TStudent = {
-  
   id: string;
   user: Types.ObjectId;
   password: string;
@@ -44,7 +43,7 @@ export type TStudent = {
   localGuardian: TLocalGuardian;
   profileImg?: string;
   admissionSemester: Types.ObjectId;
-  // academicDepartment: Types.ObjectId;
+  academicDepartment: Types.ObjectId;
   isDeleted: boolean;
 };
 
