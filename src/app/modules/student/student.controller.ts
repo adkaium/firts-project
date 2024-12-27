@@ -28,19 +28,16 @@ const singelStudentById = catchAsync(async (req, res, next) => {
 });
 
 // get update data
-const singelDataUpdate = catchAsync(async (req, res, next) => {
-  const id = req.params.studentId;
-  const { doc } = req.body;
-  const result = await studentService.updateData(id, doc);
-  result;
+const singelDataUpdate = catchAsync( async (req, res) => {
+  const { studentId } = req.params;
+  const { student } = req.body;
+  console.log(studentId, student);
+  const result = await studentService.updateData(studentId, student);
   sendResponse(res, {
     success: true,
     statusCode: 200,
     message: 'Student Data Updated Successfully',
     data: result,
-  });
-  res.status(200).json({
-    success: true,
   });
 });
 

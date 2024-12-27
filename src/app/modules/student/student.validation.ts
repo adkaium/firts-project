@@ -43,15 +43,14 @@ const localGuardianValidationSchema = z.object({
 });
 
 // Zod schema for TStudent
-const studentValidationSchema = z.object({
+export const studentValidationSchema = z.object({
   body: z.object({
-    password: z.string().max(20),
     student: z.object({
       name: userNameValidationSchema,
       gender: z.enum(['male', 'female', 'other'], {
         errorMap: () => ({ message: 'Gender is required' }),
       }),
-      dathOfBirth: z.string().optional(),
+      // dathOfBirth: z.string().optional(),
       email: z
         .string()
         .email({ message: 'Invalid email address' })
@@ -80,7 +79,7 @@ const studentValidationSchema = z.object({
 
 // update studen data validation schema
 
-const updateuserNameValidationSchema = z.object({
+const updateUserNameValidationSchema = z.object({
   firstName: z
     .string()
     .trim()
@@ -96,7 +95,7 @@ const updateuserNameValidationSchema = z.object({
     .optional(),
 });
 
-const updateguardianValidationSchema = z.object({
+const updateGuardianValidationSchema = z.object({
   fatherName: z
     .string()
     .trim()
@@ -125,7 +124,7 @@ const updateguardianValidationSchema = z.object({
     .optional(),
 });
 
-const updatelocalGuardianValidationSchema = z.object({
+const updateLocalGuardianValidationSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }).optional(),
   occupation: z
     .string()
@@ -138,45 +137,24 @@ const updatelocalGuardianValidationSchema = z.object({
   address: z.string().min(1, { message: 'Address is required' }).optional(),
 });
 
-const updatestudentValidationSchema = z.object({
+export const updateStudentValidationSchema = z.object({
   body: z.object({
-    password: z.string().max(20).optional(),
     student: z.object({
-      name: updateuserNameValidationSchema.optional(),
-      gender: z
-        .enum(['male', 'female', 'other'], {
-          errorMap: () => ({ message: 'Gender is required' }),
-        })
-        .optional(),
-      dathOfBirth: z.string().optional(),
-      email: z
-        .string()
-        .email({ message: 'Invalid email address' })
-        .min(1, { message: 'Email is required' })
-        .optional(),
-      contactNo: z
-        .string()
-        .min(1, { message: 'Contact number is required' })
-        .optional(),
-      emergencyContactNo: z
-        .string()
-        .min(1, { message: 'Emergency contact number is required' })
-        .optional(),
-      bloodGroup: z
+      name: updateUserNameValidationSchema,
+      gender: z.enum(['male', 'female', 'other']).optional(),
+      // dateOfBirth: z.string().optional(),
+      email: z.string().email().optional(),
+      contactNo: z.string().optional(),
+      emergencyContactNo: z.string().optional(),
+      bloogGroup: z
         .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
         .optional(),
-      presentAddress: z
-        .string()
-        .min(1, { message: 'Present Address is required' })
-        .optional(),
-      permanentAddress: z
-        .string()
-        .min(1, { message: 'Permanent Address is required' })
-        .optional(),
-      guardian: updateguardianValidationSchema.optional(),
-      localGuardian: updatelocalGuardianValidationSchema.optional(),
-      profileImg: z.string().optional(),
+      presentAddress: z.string().optional(),
+      permanentAddress: z.string().optional(),
+      guardian: updateGuardianValidationSchema.optional(),
+      localGuardian: updateLocalGuardianValidationSchema.optional(),
       admissionSemester: z.string().optional(),
+      profileImg: z.string().optional(),
       academicDepartment: z.string().optional(),
     }),
   }),
@@ -184,5 +162,5 @@ const updatestudentValidationSchema = z.object({
 
 export const studentValidation = {
   studentValidationSchema,
-  updatestudentValidationSchema,
+  updateStudentValidationSchema,
 };

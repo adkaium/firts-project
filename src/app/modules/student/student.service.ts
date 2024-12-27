@@ -20,7 +20,7 @@ const getAllStudent = async () => {
 
 // get one student by Id:
 const getSingelStudent = async (id: string) => {
-  const result = await Student.findOne({id})
+  const result = await Student.findOne({ id })
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
@@ -34,12 +34,31 @@ const getSingelStudent = async (id: string) => {
 
 // update data by using patch
 const updateData = async (id: string, payload: Partial<TStudent>) => {
+  const { name, guardian, localGuardian, ...rest } = payload;
+  const modifiUpdateData: Record<string, unknown> = { ...rest };
 
-  const result = await Student.findOneAndUpdate({id}, payload, {
+  if (name && Object.keys(name).length) {
+    for (const [key, value] of Object.entries(name)) {
+      modifiUpdateData[`name.${key}`] = value;
+    }
+  }
+
+  if (guardian && Object.keys(guardian).length) {
+    for (const [key, value] of Object.entries(guardian)) {
+      modifiUpdateData[`guardian.${key}`] = value;
+    }
+  }
+
+  if (localGuardian && Object.keys(localGuardian).length) {
+    for (const [key, value] of Object.entries(localGuardian)) {
+      modifiUpdateData[`localGuardian.${key}`] = value;
+    }
+  }
+
+  const result = await Student.findOneAndUpdate({ id }, modifiUpdateData, {
     new: true,
     runValidators: true,
   });
-  // console.log(result);
   return result;
 };
 
@@ -51,7 +70,7 @@ const deletedStudentFromDB = async (id: string) => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    
+
     const deletSutdent = await Student.findOneAndUpdate(
       { id },
       { isDeleted: true },
