@@ -2,13 +2,15 @@
 // import { studentValidationSchema } from './student.validation';
 import { studentService } from './student.service';
 import { catchAsync } from '../../utilits/catchAsync';
-
-
+import sendResponse from '../../utilits/sendResponse';
 
 const getAllSutdentfromDb = catchAsync(async (req, res, next) => {
   const result = await studentService.getAllStudent();
-  res.status(200).json({
-    successful: true,
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'All Student Retrive Successfully',
     data: result,
   });
 });
@@ -17,8 +19,10 @@ const getAllSutdentfromDb = catchAsync(async (req, res, next) => {
 const singelStudentById = catchAsync(async (req, res, next) => {
   const id = req.params.studentId;
   const result = await studentService.getSingelStudent(id);
-  res.status(200).json({
-    successfull: true,
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: ' Student Retrive Successfully',
     data: result,
   });
 });
@@ -26,11 +30,28 @@ const singelStudentById = catchAsync(async (req, res, next) => {
 // get update data
 const singelDataUpdate = catchAsync(async (req, res, next) => {
   const id = req.params.studentId;
-  const doc = req.body;
+  const { doc } = req.body;
   const result = await studentService.updateData(id, doc);
   result;
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Student Data Updated Successfully',
+    data: result,
+  });
   res.status(200).json({
     success: true,
+  });
+});
+
+const deletedStudent = catchAsync(async (req, res) => {
+  const id = req.params.studentId;
+  const result = await studentService.deletedStudentFromDB(id);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Student deleted Successfully',
+    data: result,
   });
 });
 
@@ -38,4 +59,5 @@ export const studentControl = {
   getAllSutdentfromDb,
   singelStudentById,
   singelDataUpdate,
+  deletedStudent,
 };
