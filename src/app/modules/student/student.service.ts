@@ -5,8 +5,20 @@ import { User } from '../user/user.model';
 import { TStudent } from './student.Interface';
 
 // get all student
-const getAllStudent = async () => {
-  const result = await Student.find()
+const getAllStudent = async (query: Record<string, unknown>) => {
+  // let searchTerm = '';
+  // if (query?.searchTerm) {
+  //   searchTerm = query?.serachTerm as string;
+  // }
+   let searchTerm = '';
+   if (query?.searchTerm) {
+     searchTerm = query?.searchTerm as string;
+   }
+  const result = await Student.find({
+    $or: ['email', 'name.firstName', 'presentAddress'].map((filed) => ({
+      [filed]: { $regex: searchTerm, $options: 'i' },
+    })),
+  })
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',

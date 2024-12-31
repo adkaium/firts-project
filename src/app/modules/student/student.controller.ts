@@ -5,7 +5,7 @@ import { catchAsync } from '../../utilits/catchAsync';
 import sendResponse from '../../utilits/sendResponse';
 
 const getAllSutdentfromDb = catchAsync(async (req, res, next) => {
-  const result = await studentService.getAllStudent();
+  const result = await studentService.getAllStudent(req.query);
 
   sendResponse(res, {
     success: true,
@@ -28,7 +28,7 @@ const singelStudentById = catchAsync(async (req, res, next) => {
 });
 
 // get update data
-const singelDataUpdate = catchAsync( async (req, res) => {
+const singelDataUpdate = catchAsync(async (req, res) => {
   const { studentId } = req.params;
   const { student } = req.body;
   console.log(studentId, student);
