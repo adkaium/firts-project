@@ -6,19 +6,24 @@ import { TStudent } from './student.Interface';
 
 // get all student
 const getAllStudent = async (query: Record<string, unknown>) => {
-  // let searchTerm = '';
-  // if (query?.searchTerm) {
-  //   searchTerm = query?.serachTerm as string;
-  // }
-   let searchTerm = '';
-   if (query?.searchTerm) {
-     searchTerm = query?.searchTerm as string;
-   }
-  const result = await Student.find({
-    $or: ['email', 'name.firstName', 'presentAddress'].map((filed) => ({
+  const queryObj = { ...query };
+
+  const searchableFields = ['email', 'name.firstName', 'presentAddress'];
+  let searchTerm = '';
+  if (query?.searchTerm) {
+    searchTerm = query?.searchTerm as string;
+  }
+  const studentSearchQuery = Student.find({
+    $or: searchableFields.map((filed) => ({
       [filed]: { $regex: searchTerm, $options: 'i' },
     })),
-  })
+  });
+
+  const excludeFields = ['searchTerm', 'sort','limit','page','fields'];
+  excludeFields.forEach((el) => delete queryObj[el]);
+
+  const filterQuery = studentSearchQuery
+    .find(queryObj)
     .populate('admissionSemester')
     .populate({
       path: 'academicDepartment',
@@ -26,8 +31,48 @@ const getAllStudent = async (query: Record<string, unknown>) => {
         path: 'academicFaculty',
       },
     });
-  // console.log(result);
-  return result;
+
+  let sort = '-createdAt';
+
+  if (query.sort) {
+    sort = query.sort as string;
+  }
+
+  const sortQuery = filterQuery
+    .sort(sort)
+    .populate('admissionSemester')
+    .populate({
+      path: 'academicDepartment',
+      populate: {
+        path: 'academicFaculty',
+      },
+    });
+  
+  let limit = 1;
+  let page = 1;
+  let skip = 0;
+   if (query.limit) {
+     limit = Number(query.limit);
+   }
+  if (query.page) {
+    page = Number(query.page);
+    skip = (page - 1) * limit;
+  }
+   
+  const paginateQuery = sortQuery.skip(skip);
+
+  const limitQuery =  paginateQuery.limit(limit);
+
+  let fields = '__v';
+
+  if(query.fields){
+    fields =(query.fields as string).split(',').join(' ');
+
+  }
+
+  const selectQuery = await limitQuery.select(fields);
+
+  return selectQuery;
 };
 
 // get one student by Id:
